@@ -3,6 +3,7 @@ import {
   Legend,
   Line,
   LineChart,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -10,7 +11,12 @@ import {
 } from 'recharts'
 import { STRESS_SCENARIO_SERIES } from '../../data/mockPortfolioData'
 
-export function StressScenarioLines() {
+type StressScenarioLinesProps = {
+  /** Highlight vertical line at this scenario id (e.g. "S3"). */
+  activeScenario?: string | null
+}
+
+export function StressScenarioLines({ activeScenario }: StressScenarioLinesProps) {
   return (
     <div className="h-[280px] w-full">
       <ResponsiveContainer width="100%" height="100%">
@@ -35,6 +41,20 @@ export function StressScenarioLines() {
             }}
           />
           <Legend wrapperStyle={{ fontSize: 12, paddingTop: 8 }} />
+          {activeScenario ? (
+            <ReferenceLine
+              x={activeScenario}
+              stroke="#fb7185"
+              strokeWidth={2}
+              strokeDasharray="6 4"
+              label={{
+                value: 'Focus',
+                position: 'top',
+                fill: '#fb7185',
+                fontSize: 10,
+              }}
+            />
+          ) : null}
           <Line
             type="monotone"
             dataKey="quantumPct"
