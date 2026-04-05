@@ -57,7 +57,7 @@ def main():
     # =========================
     # 4 assets x 2 qubits model
     # Cash (A007), Gov Bond (A014), US Equity (A004), Real Estate (A022)
-    selected_assets = ["A007", "A014", "A004", "A022"]
+    selected_assets = ["A004", "A047", "A026", "A017"]
 
     missing_assets = [asset for asset in selected_assets if asset not in scenarios_df.columns]
     if missing_assets:
@@ -65,20 +65,9 @@ def main():
             f"The following selected assets are missing from the scenario file: {missing_assets}"
         )
 
-    # Replace these with the actual discrete output from your team
-    # Example: solver output [2, 1, 3, 0]
-    raw_quantum_weights = np.array([2, 1, 3, 0], dtype=float)
+    quantum_weights = np.array([0.08, 0.04, 0.12, 0.0667], dtype=float)
+    quantum_weights = quantum_weights / quantum_weights.sum()
 
-    if np.any(raw_quantum_weights < 0):
-        raise ValueError("Quantum weights must be nonnegative for this stress test.")
-
-    if raw_quantum_weights.sum() == 0:
-        raise ValueError("Quantum weights sum to zero. Please provide a valid solution.")
-
-    # Normalize for comparison against equal-weight baseline
-    quantum_weights = raw_quantum_weights / raw_quantum_weights.sum()
-
-    # Classical baseline
     equal_weights = np.full(len(selected_assets), 1 / len(selected_assets))
 
     # =========================
@@ -142,7 +131,6 @@ def main():
     print("\n--- STRESS TEST SUMMARY ---")
     print(f"Total Scenarios Analyzed: {len(quantum_perf)}")
     print(f"Selected Assets: {selected_assets}")
-    print(f"Raw Quantum Weights: {raw_quantum_weights.tolist()}")
     print(f"Normalized Quantum Weights: {quantum_weights.round(4).tolist()}")
     print(f"Equal Weights: {equal_weights.round(4).tolist()}")
 
