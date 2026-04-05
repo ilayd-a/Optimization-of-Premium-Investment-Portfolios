@@ -8,42 +8,45 @@ import {
   Share2,
   Sigma,
 } from 'lucide-react'
+import { MethodologyTechnicalDepth } from '../methodology/MethodologyTechnicalDepth'
+import { CircuitShowcase } from './CircuitShowcase'
 import { GlassCard } from '../ui/GlassCard'
 
 const steps = [
   {
     icon: Database,
     title: 'Market data',
-    body: 'Expected returns and covariance on four liquid sleeves—the core tradable set for the quantum formulation.',
+    body: 'Expected returns μ and covariance Σ on four liquid assets—identical moments for classical and quantum solvers.',
     detail:
-      'Timestamps aligned, outliers controlled, and moments frozen so every optimizer sees identical inputs.',
+      'Moments are frozen and shared: every pipeline stage sees the same μ, Σ, and scenario draws so energy gaps and Sharpe comparisons are apples-to-apples. These moments feed directly into the QUBO matrix Q.',
   },
   {
     icon: Sigma,
-    title: 'QUBO formulation',
-    body: 'Objective and penalties as a quadratic pseudo-Boolean: discrete weights, budget, and risk in one energy landscape.',
+    title: 'QUBO',
+    body: 'Quadratic unconstrained binary optimization (QUBO): encode risk, return, and budget mismatch in one matrix Q so every allocation x ∈ {0,1}⁴ has a single scalar energy xᵀQx.',
     detail:
-      'Binary variables stand in for sleeve inclusion; penalties enforce the budget and rule out infeasible patterns.',
+      'This is the hub of the method: the portfolio problem becomes “minimize a quadratic energy over bitstrings.” The λ·(budget mismatch)² term keeps the problem unconstrained in form; expanded, it fills Q together with covariance and returns.',
   },
   {
     icon: Binary,
-    title: 'Ising Hamiltonian',
-    body: 'Spins replace binary decisions so the problem runs on VQE / QAOA-style circuits and simulators.',
-    detail: 'A standard change of variables maps QUBO → Ising so energies match measurable qubit expectations.',
+    title: 'Ising map from QUBO',
+    body: 'Bits become spins so the same QUBO energy drives a quantum circuit: couplings J and fields h are derived from Q.',
+    detail:
+      'qubo_to_ising matches simulator and QAOA cost Hamiltonian to the QUBO energy up to constants you add back when comparing numbers.',
   },
   {
     icon: Cpu,
     title: 'Quantum optimization',
-    body: 'Four qubits—one per sleeve—search the discrete energy landscape for low-energy, budget-feasible allocations.',
+    body: 'QAOA layers alternate a cost evolution with a mixer; classical loops tune the angles.',
     detail:
-      'Parameterized circuits prepare trial states; classical outer loops tune angles until bitstrings decode to implementable weights.',
+      'COBYLA, Powell, etc. adjust layer-wise parameters; measured bitstrings decode to asset weights and the same μ, Σ used everywhere else.',
   },
   {
     icon: Share2,
     title: 'Portfolio weights',
-    body: 'Decoded spins become sleeve weights, then stack against classical baselines on the same moments.',
+    body: 'Decoded allocations are turned into implementable weights and compared on the same risk–return footing.',
     detail:
-      'Post-processing enforces budgets and maps bits to economic sleeves before any risk comparison.',
+      'Bits → weights respect w_max and budget; metrics in the deck reuse the same μ, Σ as the QUBO build so quantum vs classical is not re-fit on different inputs.',
   },
 ] as const
 
@@ -76,12 +79,16 @@ export function MethodologySection() {
           transition={{ duration: 0.5 }}
           className="mb-10 text-center"
         >
-          <p className="deck-section-eyebrow text-cyan-400">Method</p>
-          <h2 className="deck-section-title">From quotes to qubits to allocations</h2>
+          <p className="deck-section-eyebrow text-cyan-400">Method · QUBO first</p>
+          <h2 className="deck-section-title">From market data to QUBO, then Ising and QAOA</h2>
           <p className="deck-section-lead mt-3">
-            One pipeline: identical risk inputs for every solver so comparisons stay fair.
+            We write the portfolio as a <strong className="font-semibold text-frost/95">QUBO</strong>—one
+            quadratic energy over binary allocation vectors—then map that same energy to an Ising Hamiltonian
+            and run QAOA. Decoded bitstrings become weights on the original μ, Σ.
           </p>
-          <p className="mx-auto mt-2 max-w-xl text-xs text-mist/75 sm:text-sm">Select a step for detail.</p>
+          <p className="mx-auto mt-2 max-w-xl text-xs text-mist/75 sm:text-sm">
+            Tap a step, or skip straight to the bite-sized breakdown below.
+          </p>
         </motion.div>
 
         <motion.div
@@ -141,6 +148,8 @@ export function MethodologySection() {
           </AnimatePresence>
         </div>
 
+        <MethodologyTechnicalDepth />
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -153,16 +162,16 @@ export function MethodologySection() {
             <div className="relative flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
               <div>
                 <h3 className="font-display text-base font-semibold text-frost sm:text-lg md:text-xl">
-                  Primary encoding: four qubits
+                  QUBO size: four binary variables → four qubits
                 </h3>
                 <p className="mt-2 max-w-xl text-xs leading-relaxed text-mist sm:text-sm">
-                  One qubit per sleeve, four sleeves—compact, explainable, and aligned with how this
-                  deck presents results. A richer eight-qubit model (two qubits per sleeve) refines the
-                  allocation grid; we treat it as a follow-on benchmark, not the headline story.
+                  The QUBO has one bit per asset (four assets), so the quantum demo uses four qubits—compact
+                  and easy to read on a slide. A richer eight-qubit encoding (two bits per asset) refines the
+                  grid; we treat it as a follow-on benchmark, not the headline story.
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
-                {['4 sleeves', '1 qubit each', 'Discrete', 'Budget-feasible'].map((chip) => (
+                {['4 assets', '1 qubit each', 'Discrete', 'Budget-feasible'].map((chip) => (
                   <span
                     key={chip}
                     className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-medium tracking-wide text-frost/90 uppercase sm:text-xs"
@@ -174,6 +183,8 @@ export function MethodologySection() {
             </div>
           </GlassCard>
         </motion.div>
+
+        <CircuitShowcase />
       </div>
     </section>
   )

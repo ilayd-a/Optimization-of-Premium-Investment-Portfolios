@@ -40,6 +40,17 @@
   }
 }
 
+/* KaTeX on dark slides: keep symbols readable */
+.methodology-math .katex {
+  color: var(--color-frost);
+}
+.methodology-math .katex .mord,
+.methodology-math .katex .mrel,
+.methodology-math .katex .mbin,
+.methodology-math .katex .mop {
+  color: inherit;
+}
+
 @layer components {
   .deck-section-eyebrow {
     @apply mb-1.5 text-[10px] font-semibold tracking-widest text-mist/90 uppercase sm:text-xs;
