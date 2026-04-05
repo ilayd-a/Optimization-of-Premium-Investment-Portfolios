@@ -1,174 +1,46 @@
+#!/usr/bin/env python3
+"""CLI wrapper for quantum vs equal-weight stress test (see ``src/evaluation/stress_test.py``)."""
+
+from __future__ import annotations
+
 import argparse
+import sys
 from pathlib import Path
 
-import numpy as np
-import pandas as pd
+ROOT = Path(__file__).resolve().parent
+SRC = ROOT / "src"
+if str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
+
+import config as project_config  # noqa: E402
+from evaluation.stress_test import run_stress_test  # noqa: E402
+from quantum.solver import get_quantum_weights  # noqa: E402
+from utils.data_loader import load_scenarios  # noqa: E402
 
 
-def compute_metrics(portfolio_returns: np.ndarray, name: str) -> dict:
-    """Compute summary statistics for a portfolio return series."""
-    return {
-        "Portfolio": name,
-        "Mean_Return": portfolio_returns.mean(),
-        "Std_Dev": portfolio_returns.std(),
-        "Worst_Scenario": portfolio_returns.min(),
-        "Best_Scenario": portfolio_returns.max(),
-        "Median_Return": np.median(portfolio_returns),
-        "5th_Percentile": np.percentile(portfolio_returns, 5),
-        "95th_Percentile": np.percentile(portfolio_returns, 95),
-    }
-
-
-def format_pct(x: float) -> str:
-    """Format decimal return as percentage string."""
-    return f"{x:.4%}"
-
-
-def main():
-    parser = argparse.ArgumentParser(description="Run portfolio stress tests on scenario data.")
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Portfolio stress tests on scenario data.")
     parser.add_argument(
         "--scenarios-file",
         type=str,
-        default="investment_dataset_scenarios.csv",
-        help="Path to CSV containing scenario returns.",
+        default=str(project_config.PATHS["scenarios"]),
     )
     parser.add_argument(
         "--output-dir",
         type=str,
-        default="stress_test_outputs",
-        help="Directory to save output CSV files.",
+        default=str(project_config.OUTPUTS["stress"]),
+        help="Writes stress_scenarios.csv, stress_summary.csv, stress_comparison.csv.",
     )
     args = parser.parse_args()
 
-    # =========================
-    # 1. Load scenario data
-    # =========================
-    scenarios_path = Path(args.scenarios_file)
-    output_dir = Path(args.output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    if not scenarios_path.exists():
-        raise FileNotFoundError(f"Scenario file not found: {scenarios_path}")
-
-    scenarios_df = pd.read_csv(scenarios_path)
-
-    # =========================
-    # 2. Define assets + weights
-    # =========================
-    # 4 assets x 2 qubits model
-    # Cash (A007), Gov Bond (A014), US Equity (A004), Real Estate (A022)
-    selected_assets = ["A004", "A047", "A026", "A017"]
-
-    missing_assets = [asset for asset in selected_assets if asset not in scenarios_df.columns]
-    if missing_assets:
-        raise ValueError(
-            f"The following selected assets are missing from the scenario file: {missing_assets}"
-        )
-
-    quantum_weights = np.array([0.08, 0.04, 0.12, 0.0667], dtype=float)
-    quantum_weights = quantum_weights / quantum_weights.sum()
-
-    equal_weights = np.full(len(selected_assets), 1 / len(selected_assets))
-
-    # =========================
-    # 3. Calculate scenario performance
-    # =========================
-    scenario_returns = scenarios_df[selected_assets].to_numpy()
-
-    quantum_perf = scenario_returns @ quantum_weights
-    equal_perf = scenario_returns @ equal_weights
-    difference = quantum_perf - equal_perf
-
-    # =========================
-    # 4. Scenario-by-scenario results
-    # =========================
-    stress_test_results = pd.DataFrame(
-        {
-            "Scenario_ID": np.arange(1, len(quantum_perf) + 1),
-            "Quantum_Return": quantum_perf,
-            "Equal_Weight_Return": equal_perf,
-            "Difference": difference,
-            "Quantum_Better": quantum_perf > equal_perf,
-        }
+    scenarios_df = load_scenarios(args.scenarios_file)
+    run_stress_test(
+        quantum_weights=get_quantum_weights(),
+        selected_assets=project_config.SELECTED_ASSETS,
+        scenarios_df=scenarios_df,
+        output_dir=args.output_dir,
+        verbose=True,
     )
-
-    # =========================
-    # 5. Summary metrics
-    # =========================
-    quantum_metrics = compute_metrics(quantum_perf, "Quantum")
-    equal_metrics = compute_metrics(equal_perf, "Equal_Weight")
-
-    summary_df = pd.DataFrame([quantum_metrics, equal_metrics])
-
-    resilience_advantage = quantum_perf.min() - equal_perf.min()
-    mean_advantage = quantum_perf.mean() - equal_perf.mean()
-    win_rate = np.mean(quantum_perf > equal_perf)
-
-    comparison_df = pd.DataFrame(
-        [
-            {
-                "Metric": "Mean_Advantage",
-                "Value": mean_advantage,
-            },
-            {
-                "Metric": "Worst_Case_Advantage",
-                "Value": resilience_advantage,
-            },
-            {
-                "Metric": "Win_Rate",
-                "Value": win_rate,
-            },
-            {
-                "Metric": "5th_Percentile_Advantage",
-                "Value": np.percentile(quantum_perf, 5) - np.percentile(equal_perf, 5),
-            },
-        ]
-    )
-
-    # =========================
-    # 6. Print report
-    # =========================
-    print("\n--- STRESS TEST SUMMARY ---")
-    print(f"Total Scenarios Analyzed: {len(quantum_perf)}")
-    print(f"Selected Assets: {selected_assets}")
-    print(f"Normalized Quantum Weights: {quantum_weights.round(4).tolist()}")
-    print(f"Equal Weights: {equal_weights.round(4).tolist()}")
-
-    print("\n--- QUANTUM PORTFOLIO ---")
-    print(f"Average Return: {format_pct(quantum_metrics['Mean_Return'])}")
-    print(f"Std Dev: {format_pct(quantum_metrics['Std_Dev'])}")
-    print(f"Worst Scenario: {format_pct(quantum_metrics['Worst_Scenario'])}")
-    print(f"Best Scenario: {format_pct(quantum_metrics['Best_Scenario'])}")
-    print(f"5th Percentile: {format_pct(quantum_metrics['5th_Percentile'])}")
-    print(f"95th Percentile: {format_pct(quantum_metrics['95th_Percentile'])}")
-
-    print("\n--- EQUAL WEIGHT BASELINE ---")
-    print(f"Average Return: {format_pct(equal_metrics['Mean_Return'])}")
-    print(f"Std Dev: {format_pct(equal_metrics['Std_Dev'])}")
-    print(f"Worst Scenario: {format_pct(equal_metrics['Worst_Scenario'])}")
-    print(f"Best Scenario: {format_pct(equal_metrics['Best_Scenario'])}")
-    print(f"5th Percentile: {format_pct(equal_metrics['5th_Percentile'])}")
-    print(f"95th Percentile: {format_pct(equal_metrics['95th_Percentile'])}")
-
-    print("\n--- COMPARISON ---")
-    print(f"Mean Advantage (Quantum - Equal): {format_pct(mean_advantage)}")
-    print(f"Worst-Case Advantage: {format_pct(resilience_advantage)}")
-    print(
-        f"5th Percentile Advantage: "
-        f"{format_pct(np.percentile(quantum_perf, 5) - np.percentile(equal_perf, 5))}"
-    )
-    print(f"Quantum beats Equal in {win_rate:.2%} of scenarios")
-
-    # =========================
-    # 7. Save outputs
-    # =========================
-    stress_test_results.to_csv(output_dir / "portfolio_stress_results.csv", index=False)
-    summary_df.to_csv(output_dir / "portfolio_summary_metrics.csv", index=False)
-    comparison_df.to_csv(output_dir / "portfolio_comparison_metrics.csv", index=False)
-
-    print(f"\nSaved detailed scenario results to: {output_dir / 'portfolio_stress_results.csv'}")
-    print(f"Saved portfolio summary metrics to: {output_dir / 'portfolio_summary_metrics.csv'}")
-    print(f"Saved comparison metrics to: {output_dir / 'portfolio_comparison_metrics.csv'}")
 
 
 if __name__ == "__main__":
