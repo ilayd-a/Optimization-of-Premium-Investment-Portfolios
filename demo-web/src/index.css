@@ -1,0 +1,74 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Outfit', system-ui, sans-serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+
+  --color-void: #05060a;
+  --color-slate-950: #0a0c12;
+  --color-slate-900: #12151f;
+  --color-slate-850: #181c28;
+  --color-slate-800: #1e2333;
+  --color-mist: #94a3b8;
+  --color-frost: #e2e8f0;
+
+  --color-accent: #8b5cf6;
+  --color-accent-dim: #6d28d9;
+  --color-cyan-glow: #22d3ee;
+  --color-emerald-soft: #34d399;
+  --color-amber-soft: #fbbf24;
+  --color-rose-soft: #fb7185;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    font-family: var(--font-sans);
+    background-color: var(--color-void);
+    color: var(--color-mist);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  #root {
+    min-height: 100dvh;
+  }
+}
+
+/* Subtle grid for depth */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.glass-panel {
+  background: linear-gradient(
+    135deg,
+    rgba(30, 35, 51, 0.72) 0%,
+    rgba(18, 21, 31, 0.55) 100%
+  );
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 0 0 1px rgba(139, 92, 246, 0.06) inset,
+    0 24px 80px -32px rgba(0, 0, 0, 0.65);
+}
+
+.text-gradient {
+  background: linear-gradient(120deg, #f8fafc 0%, #c4b5fd 45%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glow-orb {
+  filter: blur(80px);
+  opacity: 0.45;
+  pointer-events: none;
+}
