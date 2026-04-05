@@ -15,6 +15,12 @@ export const NB = {
   /** Powell 4f-2q P=3: marginal P(qubit=1) for all eight qubits. */
   qaoa4F2Q8QMarginalsPowell: '/notebook-figures/qaoa_4f2q_8q_10.png',
   qaoaRuntimeVsEnergyLoss: '/notebook-figures/qaoa_4f1q_4q_04.png',
+  /** Qiskit mpl: 4Q QAOA at depth P=1 (COBYLA angles)—shallowest export for legibility. */
+  qaoa4QCircuitP1: '/notebook-figures/qaoa_4f1q_4q_07.png',
+  /** Qiskit mpl: 8Q QAOA circuit (COBYLA). */
+  qaoa8QCircuitCobyla: '/notebook-figures/qaoa_8f1q_8q_15.png',
+  /** Qiskit mpl: 8Q QAOA circuit (Powell). */
+  qaoa8QCircuitPowell: '/notebook-figures/qaoa_8f1q_8q_17.png',
 } as const
 
 export const RESULTS_NOTEBOOK_FIGURES = [

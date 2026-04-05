@@ -8,6 +8,7 @@ import {
   Share2,
   Sigma,
 } from 'lucide-react'
+import { CircuitShowcase } from './CircuitShowcase'
 import { GlassCard } from '../ui/GlassCard'
 
 const steps = [
@@ -174,6 +175,8 @@ export function MethodologySection() {
             </div>
           </GlassCard>
         </motion.div>
+
+        <CircuitShowcase />
       </div>
     </section>
   )
