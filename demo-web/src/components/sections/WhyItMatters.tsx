@@ -18,13 +18,13 @@ const cards = [
   {
     icon: Landmark,
     title: 'Constrained capital in practice',
-    body: 'Insurance and institutional portfolios operate with sleeve limits, liquidity rules, and liability-aware risk budgets. Discrete allocation grids match how those books are actually traded and reported.',
+    body: 'Insurance and institutional portfolios operate with asset limits, liquidity rules, and liability-aware risk budgets. Discrete allocation grids match how those books are actually traded and reported.',
     accent: 'from-emerald-500/20 to-teal-500/10',
   },
   {
     icon: Orbit,
     title: 'Hardware and finance, linked',
-    body: 'Four qubits—one per sleeve—keep the circuit legible for stakeholders while mapping cleanly to economic weights.',
+    body: 'Four qubits—one per asset—keep the circuit legible for stakeholders while mapping cleanly to economic weights.',
     accent: 'from-amber-500/20 to-orange-500/10',
   },
 ] as const

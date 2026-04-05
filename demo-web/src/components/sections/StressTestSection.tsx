@@ -1,115 +1,149 @@
 import { motion } from 'framer-motion'
-import { Activity, Layers, ShieldAlert } from 'lucide-react'
+import { Radio, Scale, Sparkles, Target, TrendingDown } from 'lucide-react'
 import {
-  DISCRETE_STRESS,
+  QAOA_4F1Q_COBYLA_BY_P,
   QAOA_4F1Q_GROUND_TRUTH_ENERGY,
   QUBO_4F4Q_RANKED,
 } from '../../data/presentationData'
-import { STRESS_SECTION_FIGURE } from '../../data/notebookFigures'
-import { NotebookFigure } from '../notebook/NotebookFigure'
 import { GlassCard } from '../ui/GlassCard'
 
 export function StressTestSection() {
-  const gapQaoa = DISCRETE_STRESS.qaoaExpectedEnergy - DISCRETE_STRESS.groundTruthEnergy
-  const spreadDiscrete = DISCRETE_STRESS.worstNonEmptyObjective - DISCRETE_STRESS.bestObjective
+  const ground = QUBO_4F4Q_RANKED[0]
+  const worst = QUBO_4F4Q_RANKED[15]
+  const qaoaP3 = QAOA_4F1Q_COBYLA_BY_P[2]
+  const eGround = QAOA_4F1Q_GROUND_TRUTH_ENERGY
+  const gapEnergy = qaoaP3.expectedEnergy - eGround
+
+  const findings = [
+    {
+      icon: Target,
+      title: 'The QUBO ranking has a clear head',
+      line: (
+        <>
+          Full enumeration of the 4Q problem puts the best allocation at bitstring{' '}
+          <strong className="text-frost/95">{ground.state}</strong> with objective{' '}
+          <strong className="text-frost/95">{ground.objective.toFixed(4)}</strong>. That is the classical
+          discrete story we compare everything else against.
+        </>
+      ),
+      accent: 'from-violet-500/25',
+    },
+    {
+      icon: TrendingDown,
+      title: 'QAOA depth helped—but did not close the gap',
+      line: (
+        <>
+          From P = 1 → 3 we saw ⟨E⟩ fall sharply; at P = 3 the strongest sampled bitstring matches the
+          ground state <strong className="text-frost/95">{ground.state}</strong>. Even so, ⟨E⟩ at P = 3
+          remains about <strong className="text-frost/95">{gapEnergy.toFixed(3)}</strong> above the
+          classical Ising ground energy ({eGround.toFixed(4)}).
+        </>
+      ),
+      accent: 'from-amber-500/25',
+    },
+    {
+      icon: Scale,
+      title: 'Most discrete states are nowhere near optimal',
+      line: (
+        <>
+          The objective spread from best to worst is enormous on the same scale—the tail includes values
+          near <strong className="text-frost/95">{worst.objective.toFixed(2)}</strong> ({worst.state}).
+          Stress here means: a wrong bitstring is not a small miss.
+        </>
+      ),
+      accent: 'from-rose-500/20',
+    },
+    {
+      icon: Radio,
+      title: 'Noise lifted average energy in our runs',
+      line: (
+        <>
+          In the notebook noise sweeps, clean simulations sat lowest; one-zone noise models pushed{' '}
+          <strong className="text-frost/95">average energy</strong> up, with full noise worst and a
+          “no move” upper bound in between—still far from the target line. Plots are on Results.
+        </>
+      ),
+      accent: 'from-cyan-500/20',
+    },
+  ] as const
 
   return (
-    <section id="stress" className="px-4 py-10 sm:px-8 sm:py-12">
-      <div className="mx-auto max-w-6xl">
+    <section id="stress" className="px-4 py-6 sm:px-8 sm:py-8">
+      <div className="mx-auto max-w-5xl">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.5 }}
-          className="mb-10 text-center"
+          transition={{ duration: 0.45 }}
+          className="mb-8 text-center"
         >
-          <p className="deck-section-eyebrow text-amber-400">Discrete stress</p>
-          <h2 className="deck-section-title">Where the combinatorics bite</h2>
-          <p className="deck-section-lead mt-3">
-            This slide quantifies structure in the four-qubit formulation: how objectives spread
-            across all 16 bitstrings, and how far finite-depth QAOA sits from the classical Ising
-            ground energy.
+          <p className="deck-section-eyebrow text-amber-400">What we found</p>
+          <h2 className="font-display text-2xl font-semibold tracking-tight text-frost sm:text-3xl md:text-4xl">
+            Under discrete stress
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-base leading-snug text-mist sm:text-lg">
+            Concrete outcomes from the 4Q QUBO table, the QAOA depth sweep, and the noise summaries—not
+            generic advice.
           </p>
         </motion.div>
 
-        <div className="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            {
-              icon: ShieldAlert,
-              label: 'Best 4Q objective',
-              value: DISCRETE_STRESS.bestObjective.toFixed(4),
-              hint: `State ${QUBO_4F4Q_RANKED[0].state}`,
-            },
-            {
-              icon: Layers,
-              label: 'Discrete spread (max − min)',
-              value: spreadDiscrete.toFixed(4),
-              hint: 'All 16 allocations including empty portfolio',
-            },
-            {
-              icon: Activity,
-              label: 'QAOA ⟨E⟩ − E_ground',
-              value: gapQaoa.toFixed(4),
-              hint: `P = 3 · ground ${QAOA_4F1Q_GROUND_TRUTH_ENERGY.toFixed(4)}`,
-            },
-            {
-              icon: ShieldAlert,
-              label: '5th-ranked objective',
-              value: DISCRETE_STRESS.fifthRankObjective.toFixed(4),
-              hint: 'Mid-tail discrete loss',
-            },
-          ].map(({ icon: Icon, label, value, hint }) => (
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.4 }}
+          className="mb-8 rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-5 text-center sm:px-8 sm:py-6"
+        >
+          <p className="text-xs font-semibold tracking-widest text-amber-300/90 uppercase">
+            Bottom line from the runs
+          </p>
+          <p className="mx-auto mt-2 max-w-3xl text-base font-medium leading-snug text-frost sm:text-lg">
+            Enumeration is decisive on the discrete grid; QAOA moves probability and ⟨E⟩ in the right
+            direction with depth, but energy and noise still leave headroom versus the classical ground.
+          </p>
+        </motion.div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          {findings.map(({ icon: Icon, title, line, accent }, i) => (
             <motion.div
-              key={label}
-              initial={{ opacity: 0, y: 14 }}
+              key={title}
+              initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
+              viewport={{ once: true, margin: '-30px' }}
+              transition={{ delay: i * 0.04, duration: 0.4 }}
             >
-              <GlassCard className="h-full p-4 sm:p-5">
-                <Icon className="mb-2 size-4 text-amber-300/90 sm:mb-3 sm:size-5" aria-hidden />
-                <p className="text-[10px] font-medium tracking-wide text-mist/80 uppercase sm:text-[11px]">
-                  {label}
-                </p>
-                <p className="mt-1.5 font-display text-xl font-semibold tabular-nums text-frost sm:text-2xl">
-                  {value}
-                </p>
-                <p className="mt-1.5 text-[11px] text-mist/75 sm:text-xs">{hint}</p>
+              <GlassCard className="relative h-full overflow-hidden p-6 sm:p-7">
+                <div
+                  className={`pointer-events-none absolute -right-8 -top-8 size-44 rounded-full bg-gradient-to-br ${accent} to-transparent blur-2xl`}
+                  aria-hidden
+                />
+                <div className="relative">
+                  <div className="mb-4 inline-flex size-12 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/15">
+                    <Icon className="size-6 text-frost" aria-hidden />
+                  </div>
+                  <h3 className="font-display text-xl font-semibold text-frost sm:text-2xl">{title}</h3>
+                  <p className="mt-3 text-base leading-relaxed text-mist sm:text-[1.05rem]">{line}</p>
+                </div>
               </GlassCard>
             </motion.div>
           ))}
         </div>
 
-        <GlassCard hover={false} className="p-5 sm:p-6">
-          <h3 className="mb-1 font-display text-base font-semibold text-frost sm:text-lg">
-            {STRESS_SECTION_FIGURE.title}
-          </h3>
-          <p className="mb-3 text-xs text-mist sm:text-sm">
-            How compute time trades off against closing the gap to the target energy at each depth.
-          </p>
-          <NotebookFigure
-            src={STRESS_SECTION_FIGURE.src}
-            alt={STRESS_SECTION_FIGURE.alt}
-            title={STRESS_SECTION_FIGURE.title}
-          />
-        </GlassCard>
-
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-8"
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ delay: 0.1, duration: 0.4 }}
+          className="mt-8 text-center"
         >
-          <div className="relative overflow-hidden rounded-2xl border border-violet-500/25 bg-gradient-to-br from-violet-950/40 to-slate-950/80 p-5 sm:p-7">
-            <div className="pointer-events-none absolute -left-10 top-0 size-40 rounded-full bg-violet-500/20 blur-3xl" />
-            <h3 className="font-display text-lg font-semibold text-frost sm:text-xl">Takeaway</h3>
-            <p className="relative mt-2 max-w-3xl text-xs leading-relaxed text-mist sm:text-sm">
-              The discrete ladder exposes how sharply objective deteriorates away from the optimum.
-              QAOA at P = 3 remains roughly <strong className="text-frost">{gapQaoa.toFixed(3)}</strong>{' '}
-              above the classical ground energy on this run; the results section shows depth and
-              overlap curves.
-            </p>
+          <div className="inline-flex items-center gap-2 text-amber-400/95">
+            <Sparkles className="size-5 shrink-0" aria-hidden />
+            <span className="text-xs font-bold tracking-widest uppercase">Figures &amp; curves</span>
           </div>
+          <p className="mx-auto mt-4 max-w-3xl text-lg font-medium leading-snug text-frost sm:text-xl">
+            Depth sweeps, marginals, and noise panels are on <strong className="text-frost/95">Results</strong>
+            —this slide states what those runs showed in words.
+          </p>
         </motion.div>
       </div>
     </section>

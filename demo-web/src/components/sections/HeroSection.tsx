@@ -23,6 +23,33 @@ export function HeroSection() {
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.05, duration: 0.5 }}
+          className="mb-3 flex flex-col items-center gap-1.5"
+        >
+          <div className="inline-flex items-center justify-center rounded-2xl border border-amber-500/35 bg-gradient-to-r from-amber-500/15 to-orange-500/10 px-6 py-3 shadow-[0_0_24px_-8px_rgba(245,158,11,0.35)] backdrop-blur-sm sm:px-8 sm:py-3.5">
+            <img
+              src="/popeyes-logo.svg"
+              alt="Popeyes"
+              className="h-8 w-auto max-w-[min(100%,280px)] object-contain sm:h-10"
+              width={280}
+              height={44}
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+          <a
+            href="https://commons.wikimedia.org/wiki/File:Popeyes_Logo_2020.svg"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="text-[10px] text-mist/45 underline-offset-2 hover:text-mist/70 hover:underline"
+          >
+            Logo: Wikimedia Commons (CC BY-SA 4.0)
+          </a>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1, duration: 0.5 }}
           className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-medium tracking-wide text-frost/90 backdrop-blur-sm sm:text-xs"
         >
@@ -37,9 +64,29 @@ export function HeroSection() {
         </h1>
 
         <p className="mx-auto mt-5 max-w-2xl text-pretty text-sm leading-relaxed text-mist sm:text-base">
-          Four liquid sleeves, one qubit per sleeve: we encode mean–variance risk with a hard budget as
+          Four liquid assets, one qubit per asset: we encode mean–variance risk with a hard budget as
           a QUBO, map to Ising, and validate with QAOA depth sweeps. A finer eight-qubit encoding (two
-          qubits per sleeve) was evaluated separately and sits outside the main storyline.
+          qubits per asset) was evaluated separately and sits outside the main storyline.
+        </p>
+
+        <p className="mx-auto mt-5 max-w-3xl text-center text-[11px] leading-relaxed text-mist/85 sm:text-xs">
+          <span className="text-frost/90">Ilayda Dilek</span>
+          <span className="mx-1.5 text-mist/40" aria-hidden>
+            ·
+          </span>
+          <span className="text-frost/90">Harmandeep Kaur</span>
+          <span className="mx-1.5 text-mist/40" aria-hidden>
+            ·
+          </span>
+          <span className="text-frost/90">Tanish Singh Rajpal</span>
+          <span className="mx-1.5 text-mist/40" aria-hidden>
+            ·
+          </span>
+          <span className="text-frost/90">Edward Chang</span>
+          <span className="mx-1.5 text-mist/40" aria-hidden>
+            ·
+          </span>
+          <span className="text-frost/90">Hiram Zuniga</span>
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

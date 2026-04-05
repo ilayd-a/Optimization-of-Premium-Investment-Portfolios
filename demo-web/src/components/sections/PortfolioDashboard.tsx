@@ -1,9 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
-import { BarChart3, CheckCircle2, Layers, Loader2, Play } from 'lucide-react'
+import { CheckCircle2, Loader2, Play } from 'lucide-react'
 import { PORTFOLIO_PROGRAMS, type PortfolioProgram } from '../../data/presentationData'
-import { PORTFOLIO_WEIGHTS_FIGURE } from '../../data/notebookFigures'
-import { NotebookFigure } from '../notebook/NotebookFigure'
 import { GlassCard } from '../ui/GlassCard'
 
 function Metric({
@@ -191,44 +189,6 @@ export function PortfolioDashboard() {
             ))}
           </motion.div>
         </AnimatePresence>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1, duration: 0.5 }}
-          className="mt-10"
-        >
-          <GlassCard hover={false} className="p-5 sm:p-6">
-            <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h3 className="flex items-center gap-2 font-display text-base font-semibold text-frost sm:text-lg">
-                  <BarChart3 className="size-4 text-violet-400 sm:size-5" aria-hidden />
-                  Sleeve weights (4Q)
-                </h3>
-                <p className="mt-1 text-xs text-mist sm:text-sm">
-                  Ground-state scenario visualization; sleeve metrics stay in the cards above.
-                </p>
-              </div>
-              <div className="flex items-center gap-2 rounded-full border border-white/10 bg-black/25 px-2.5 py-1.5 text-[10px] text-mist sm:px-3 sm:text-xs">
-                <Layers className="size-3.5 text-violet-300" aria-hidden />
-                One qubit per sleeve
-              </div>
-            </div>
-            <motion.div
-              key={runStamp}
-              initial={{ opacity: 0.85 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4 }}
-            >
-              <NotebookFigure
-                src={PORTFOLIO_WEIGHTS_FIGURE.src}
-                alt={PORTFOLIO_WEIGHTS_FIGURE.alt}
-                title={PORTFOLIO_WEIGHTS_FIGURE.title}
-              />
-            </motion.div>
-          </GlassCard>
-        </motion.div>
       </div>
     </section>
   )

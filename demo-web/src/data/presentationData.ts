@@ -1,6 +1,6 @@
 /**
  * Presentation metrics (synced from the optimization pipeline / experiment logs).
- * Primary story: four sleeves, one qubit per sleeve (4Q). Eight-qubit and 4×2Q runs are supplementary.
+ * Primary story: four assets, one qubit per asset (4Q). Eight-qubit and 4×2Q runs are supplementary.
  */
 
 /** --- QUBO 4F4Q: full ranking (cell 17 stream) --- */
@@ -23,7 +23,7 @@ export const QUBO_4F4Q_RANKED = [
   { rank: 16, state: '1111', objective: 1.073037, return_: 0.01615, risk: 0.013663 },
 ] as const
 
-/** Four sleeves × one binary decision each → four qubits. */
+/** Four assets × one binary decision each → four qubits. */
 export const ASSETS_4 = [
   { id: 'A017', name: 'Gov Bonds', expReturn: 0.0183, volatility: 0.0364, wMax: 0.2 },
   { id: 'A026', name: 'IG Credit', expReturn: 0.0334, volatility: 0.0508, wMax: 0.12 },
@@ -74,7 +74,7 @@ export const QAOA_4F1Q_COBYLA_BY_P = [
 /** Classical ground energy for the 4-qubit Ising model (bitstring 0011). */
 export const QAOA_4F1Q_GROUND_TRUTH_ENERGY = -0.007414
 
-/** Classical ground energy for the 8-qubit (two qubits per sleeve) Ising instance. */
+/** Classical ground energy for the 8-qubit (two qubits per asset) Ising instance. */
 export const QAOA_8F1Q_8Q_GROUND_TRUTH_ENERGY = -0.019995518790163036
 
 /**
@@ -133,7 +133,7 @@ function weightSumForBitstring(state: string): number {
   return s
 }
 
-function activeSleeveCount(state: string): number {
+function activeAssetCount(state: string): number {
   return [...state].filter((c) => c === '1').length
 }
 
@@ -151,15 +151,15 @@ function buildPortfolioPrograms(): PortfolioProgram[] {
     {
       id: 'qubo_ground',
       name: 'QUBO optimum (4Q)',
-      tagline: `Ground bitstring ${ground.state} — one qubit per sleeve`,
+      tagline: `Ground bitstring ${ground.state} — one qubit per asset`,
       accent: '#a78bfa',
       metrics: [
         { label: 'Objective', value: ground.objective.toFixed(4), sub: 'Mean–variance + budget penalty' },
         { label: 'Return', value: ground.return_.toFixed(4), sub: 'μᵀw' },
         { label: 'Risk', value: ground.risk.toFixed(4), sub: 'Variance term' },
         {
-          label: 'Active sleeves',
-          value: String(activeSleeveCount(ground.state)),
+          label: 'Active assets',
+          value: String(activeAssetCount(ground.state)),
           sub: `Σw = ${sumG.toFixed(2)} vs target 0.30`,
         },
       ],
@@ -178,8 +178,8 @@ function buildPortfolioPrograms(): PortfolioProgram[] {
         { label: 'Return', value: runner.return_.toFixed(4), sub: '' },
         { label: 'Risk', value: runner.risk.toFixed(4), sub: '' },
         {
-          label: 'Active sleeves',
-          value: String(activeSleeveCount(runner.state)),
+          label: 'Active assets',
+          value: String(activeAssetCount(runner.state)),
           sub: `Σw = ${sumR.toFixed(2)}`,
         },
       ],

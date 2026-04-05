@@ -42,14 +42,14 @@ export function ProblemOverview() {
                 <span className="mt-1 size-1.5 shrink-0 rounded-full bg-cyan-glow sm:size-2" />
                 <span>
                   <strong className="text-frost">Budget constraint:</strong> weights respect a fixed
-                  investable total; sleeves can be off or on within sleeve-specific caps.
+                  investable total; assets can be off or on within asset-specific caps.
                 </span>
               </li>
               <li className="flex gap-3">
                 <span className="mt-1 size-1.5 shrink-0 rounded-full bg-emerald-soft sm:size-2" />
                 <span>
-                  <strong className="text-frost">Discrete sleeves:</strong> in the primary model, one
-                  binary decision per sleeve (one qubit per sleeve). A two-qubits-per-sleeve extension
+                  <strong className="text-frost">Discrete assets:</strong> in the primary model, one
+                  binary decision per asset (one qubit per asset). A two-qubits-per-asset extension
                   adds finer grids and is referenced as a secondary benchmark.
                 </span>
               </li>

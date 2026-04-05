@@ -10,10 +10,20 @@ export const NB = {
   quboIsingJHeatmap: '/notebook-figures/qubo_4f4q_03.png',
   quboGroundScenario: '/notebook-figures/qubo_4f4q_04.png',
   qaoaExpectedEnergyVsP: '/notebook-figures/qaoa_4f1q_4q_00.png',
-  /** Powell best run: marginal P(qubit=1) per sleeve (4Q notebook). */
+  /** Powell best run: marginal P(qubit=1) per asset (4Q notebook). */
   qaoa4QMarginalsPowell: '/notebook-figures/qaoa_4f1q_4q_05.png',
   /** Powell 4f-2q P=3: marginal P(qubit=1) for all eight qubits. */
   qaoa4F2Q8QMarginalsPowell: '/notebook-figures/qaoa_4f2q_8q_10.png',
+  /** 8F1Q notebook: marginal P(qubit=1) for best run at P=3 (eight qubits). */
+  qaoa8f1qQubitMarginalsBestP3: '/notebook-figures/qaoa_8f1q_8q_03.png',
+  /** 8F1Q notebook: Powell best expected energy vs QAOA depth P. */
+  qaoa8f1qExpectedEnergyVsPPowell: '/notebook-figures/qaoa_8f1q_8q_08.png',
+  /** Qiskit mpl: 4Q QAOA circuit (Powell best angles). */
+  qaoa4f1qCircuitPowellBest: '/notebook-figures/qaoa_4f1q_4q_06.png',
+  /** Second plot from plot_noise_summary: average energy under noise (4Q). */
+  qaoa4f1qNoiseAvgEnergy: '/notebook-figures/qaoa_4f1q_4q_12.png',
+  /** Second plot from plot_noise_summary: average energy under noise (8Q). */
+  qaoa8f1qNoiseAvgEnergy: '/notebook-figures/qaoa_8f1q_8q_20.png',
   qaoaRuntimeVsEnergyLoss: '/notebook-figures/qaoa_4f1q_4q_04.png',
   /** Qiskit mpl: 4Q QAOA at depth P=1 (COBYLA angles)—shallowest export for legibility. */
   qaoa4QCircuitP1: '/notebook-figures/qaoa_4f1q_4q_07.png',
@@ -23,42 +33,49 @@ export const NB = {
   qaoa8QCircuitPowell: '/notebook-figures/qaoa_8f1q_8q_17.png',
 } as const
 
+/** Order: 4Q sweep → 8Q Powell sweep → 8Q marginals → 4Q marginals → circuit → noise (4Q → 8Q). */
 export const RESULTS_NOTEBOOK_FIGURES = [
   {
-    key: 'risk_return',
-    src: NB.quboRiskSpectrumAndCorrelation,
-    title: 'Return–risk geometry & sleeve selection',
-    alt: 'Selected four assets on a volatility vs expected return scatter with a correlation heatmap',
-  },
-  {
-    key: 'ising_structure',
-    src: NB.quboIsingJHeatmap,
-    title: 'Ising coupling structure',
-    alt: 'Ising model coupling visualization',
-  },
-  {
-    key: 'qaoa_energy',
+    key: 'qaoa_energy_4q',
     src: NB.qaoaExpectedEnergyVsP,
-    title: 'QAOA: expected energy vs depth',
-    alt: 'QAOA expected energy versus depth P',
+    title: 'Expected energy vs P (4 assets / 4 qubits)',
+    alt: 'Line plot of QAOA expected energy versus depth P with classical target energy reference',
+  },
+  {
+    key: 'qaoa_energy_8q_powell',
+    src: NB.qaoa8f1qExpectedEnergyVsPPowell,
+    title: 'Powell: best expected energy vs P (8 assets / 8 qubits)',
+    alt: 'Line plot of Powell best expected energy versus QAOA depth P with target reference',
+  },
+  {
+    key: 'qaoa_marginals_8f1q',
+    src: NB.qaoa8f1qQubitMarginalsBestP3,
+    title: 'Qubit marginals of best run (P = 3, 8 qubits)',
+    alt: 'Bar chart of marginal probability of measuring 1 for each of eight qubits',
   },
   {
     key: 'qaoa_marginals_4q',
     src: NB.qaoa4QMarginalsPowell,
-    title: 'Qubit marginals (4Q, Powell, best run)',
-    alt: 'Bar chart of marginal probability of measuring 1 on each qubit for four sleeves',
+    title: 'Qubit marginal probabilities (Powell, best run P = 3, four assets)',
+    alt: 'Bar chart of marginal probability of measuring 1 for Gov Bonds, IG Credit, Cash, and HY Credit',
   },
   {
-    key: 'qaoa_marginals_8q',
-    src: NB.qaoa4F2Q8QMarginalsPowell,
-    title: 'Qubit marginals (4f-2q, 8Q, Powell, P=3)',
-    alt: 'Bar chart of marginal probability P(qubit equals 1) for eight qubits',
+    key: 'qaoa_circuit_4q',
+    src: NB.qaoa4f1qCircuitPowellBest,
+    title: '4Q QAOA circuit (Powell best angles)',
+    alt: 'Quantum circuit diagram for four-qubit QAOA with Hadamard, rotations, and ZZ interactions',
   },
   {
-    key: 'sampler_and_discrete',
-    src: NB.quboObjectivesAndSampler,
-    title: 'Objectives, Boltzmann mass & sampler',
-    alt: 'Sixteen objectives, ideal and sampled probabilities, draw counts',
+    key: 'qaoa_noise_avg_energy_4q',
+    src: NB.qaoa4f1qNoiseAvgEnergy,
+    title: '4F / 4Q — average energy under noise',
+    alt: 'Bar chart of average energy for clean, full noise, and no-move noise versus target',
+  },
+  {
+    key: 'qaoa_noise_avg_energy_8q',
+    src: NB.qaoa8f1qNoiseAvgEnergy,
+    title: '8F / 8Q — average energy under noise',
+    alt: 'Bar chart of average energy for clean, full noise, and no-move noise versus target',
   },
 ] as const
 
@@ -77,6 +94,6 @@ export const PORTFOLIO_WEIGHTS_FIGURE = {
 /** Solo Q heatmap — distinct from the combined risk+correlation figure in results. */
 export const PLAYGROUND_FIGURE = {
   src: NB.quboQHeatmap,
-  title: 'Sleeve correlation structure',
-  alt: 'Heatmap of Q for the four selected sleeves',
+  title: 'Asset correlation structure',
+  alt: 'Heatmap of Q for the four selected assets',
 } as const
