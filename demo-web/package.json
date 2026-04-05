@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "node -e \"console.log('[build] node', process.version)\" && tsc -b && node -e \"console.log('[build] tsc done')\" && vite build",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json",
     "lint": "eslint .",
     "preview": "vite preview"
   },
