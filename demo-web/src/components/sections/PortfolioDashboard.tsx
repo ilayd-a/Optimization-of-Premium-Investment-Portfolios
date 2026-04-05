@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import { BarChart3, CheckCircle2, Layers, Loader2, Play } from 'lucide-react'
-import { PORTFOLIO_PROGRAMS } from '../../data/presentationData'
+import { PORTFOLIO_PROGRAMS, type PortfolioProgram } from '../../data/presentationData'
 import { PORTFOLIO_WEIGHTS_FIGURE } from '../../data/notebookFigures'
 import { NotebookFigure } from '../notebook/NotebookFigure'
 import { GlassCard } from '../ui/GlassCard'
@@ -90,7 +90,7 @@ export function PortfolioDashboard() {
   const [showBest, setShowBest] = useState(true)
   const [runStamp, setRunStamp] = useState(0)
 
-  const programs = PORTFOLIO_PROGRAMS
+  const programs: PortfolioProgram[] = PORTFOLIO_PROGRAMS
 
   function runReplay() {
     if (optimizing) return

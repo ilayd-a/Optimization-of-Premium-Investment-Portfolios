@@ -1,0 +1,242 @@
+[
+  {
+    "file": "qubo_4f4q_00.png",
+    "notebook": "qubo_4f4q"
+  },
+  {
+    "file": "qubo_4f4q_01.png",
+    "notebook": "qubo_4f4q"
+  },
+  {
+    "file": "qubo_4f4q_02.png",
+    "notebook": "qubo_4f4q"
+  },
+  {
+    "file": "qubo_4f4q_03.png",
+    "notebook": "qubo_4f4q"
+  },
+  {
+    "file": "qubo_4f4q_04.png",
+    "notebook": "qubo_4f4q"
+  },
+  {
+    "file": "qubo_8f8q_00.png",
+    "notebook": "qubo_8f8q"
+  },
+  {
+    "file": "qubo_8f8q_01.png",
+    "notebook": "qubo_8f8q"
+  },
+  {
+    "file": "qubo_8f8q_02.png",
+    "notebook": "qubo_8f8q"
+  },
+  {
+    "file": "qubo_8f8q_03.png",
+    "notebook": "qubo_8f8q"
+  },
+  {
+    "file": "qubo_8f8q_04.png",
+    "notebook": "qubo_8f8q"
+  },
+  {
+    "file": "qaoa_4f1q_4q_00.png",
+    "notebook": "qaoa_4f1q_4q"
+  },
+  {
+    "file": "qaoa_4f1q_4q_01.png",
+    "notebook": "qaoa_4f1q_4q"
+  },
+  {
+    "file": "qaoa_4f1q_4q_02.png",
+    "notebook": "qaoa_4f1q_4q"
+  },
+  {
+    "file": "qaoa_4f1q_4q_03.png",
+    "notebook": "qaoa_4f1q_4q"
+  },
+  {
+    "file": "qaoa_4f1q_4q_04.png",
+    "notebook": "qaoa_4f1q_4q"
+  },
+  {
+    "file": "qaoa_4f1q_4q_05.png",
+    "notebook": "qaoa_4f1q_4q"
+  },
+  {
+    "file": "qaoa_4f1q_4q_06.png",
+    "notebook": "qaoa_4f1q_4q"
+  },
+  {
+    "file": "qaoa_4f1q_4q_07.png",
+    "notebook": "qaoa_4f1q_4q"
+  },
+  {
+    "file": "qaoa_4f1q_4q_08.png",
+    "notebook": "qaoa_4f1q_4q"
+  },
+  {
+    "file": "qaoa_4f1q_4q_09.png",
+    "notebook": "qaoa_4f1q_4q"
+  },
+  {
+    "file": "qaoa_4f1q_4q_10.png",
+    "notebook": "qaoa_4f1q_4q"
+  },
+  {
+    "file": "qaoa_4f1q_4q_11.png",
+    "notebook": "qaoa_4f1q_4q"
+  },
+  {
+    "file": "qaoa_4f1q_4q_12.png",
+    "notebook": "qaoa_4f1q_4q"
+  },
+  {
+    "file": "qaoa_4f1q_4q_13.png",
+    "notebook": "qaoa_4f1q_4q"
+  },
+  {
+    "file": "qaoa_4f2q_8q_00.png",
+    "notebook": "qaoa_4f2q_8q"
+  },
+  {
+    "file": "qaoa_4f2q_8q_01.png",
+    "notebook": "qaoa_4f2q_8q"
+  },
+  {
+    "file": "qaoa_4f2q_8q_02.png",
+    "notebook": "qaoa_4f2q_8q"
+  },
+  {
+    "file": "qaoa_4f2q_8q_03.png",
+    "notebook": "qaoa_4f2q_8q"
+  },
+  {
+    "file": "qaoa_4f2q_8q_04.png",
+    "notebook": "qaoa_4f2q_8q"
+  },
+  {
+    "file": "qaoa_4f2q_8q_05.png",
+    "notebook": "qaoa_4f2q_8q"
+  },
+  {
+    "file": "qaoa_4f2q_8q_06.png",
+    "notebook": "qaoa_4f2q_8q"
+  },
+  {
+    "file": "qaoa_4f2q_8q_07.png",
+    "notebook": "qaoa_4f2q_8q"
+  },
+  {
+    "file": "qaoa_4f2q_8q_08.png",
+    "notebook": "qaoa_4f2q_8q"
+  },
+  {
+    "file": "qaoa_4f2q_8q_09.png",
+    "notebook": "qaoa_4f2q_8q"
+  },
+  {
+    "file": "qaoa_4f2q_8q_10.png",
+    "notebook": "qaoa_4f2q_8q"
+  },
+  {
+    "file": "qaoa_4f2q_8q_11.png",
+    "notebook": "qaoa_4f2q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_00.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_01.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_02.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_03.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_04.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_05.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_06.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_07.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_08.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_09.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_10.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_11.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_12.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_13.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_14.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_15.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_16.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_17.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_18.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_19.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_20.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "qaoa_8f1q_8q_21.png",
+    "notebook": "qaoa_8f1q_8q"
+  },
+  {
+    "file": "classical_solution_00.png",
+    "notebook": "classical_solution"
+  },
+  {
+    "file": "classical_solution_01.png",
+    "notebook": "classical_solution"
+  }
+]
