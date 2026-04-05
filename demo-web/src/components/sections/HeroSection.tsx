@@ -100,15 +100,6 @@ export function HeroSection() {
             View results
             <ArrowDownRight className="size-4" aria-hidden />
           </motion.button>
-          <motion.button
-            type="button"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => goToId('stress')}
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-2.5 text-xs font-semibold text-frost backdrop-blur-sm transition-colors hover:border-cyan-glow/40 hover:bg-white/10 sm:px-7 sm:py-3 sm:text-sm"
-          >
-            Discrete stress
-          </motion.button>
         </div>
 
         <p className="mx-auto mt-6 max-w-md text-[11px] leading-relaxed text-mist/60 sm:text-xs">

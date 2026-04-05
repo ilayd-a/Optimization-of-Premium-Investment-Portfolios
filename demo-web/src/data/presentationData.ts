@@ -230,17 +230,6 @@ export const RISK_RETURN_FRONTIER_POINTS = QUBO_4F4Q_RANKED.slice(0, 12).map((r)
   objective: r.objective,
 }))
 
-/** Discrete “stress”: objective spread across 16 bitstrings */
-export const DISCRETE_STRESS = {
-  bestObjective: QUBO_4F4Q_RANKED[0].objective,
-  runnerObjective: QUBO_4F4Q_RANKED[1].objective,
-  worstFeasibleObjective: QUBO_4F4Q_RANKED[14].objective,
-  worstNonEmptyObjective: QUBO_4F4Q_RANKED[15].objective,
-  fifthRankObjective: QUBO_4F4Q_RANKED[4].objective,
-  qaoaExpectedEnergy: QAOA_4F1Q_COBYLA_BY_P[2].expectedEnergy,
-  groundTruthEnergy: QAOA_4F1Q_GROUND_TRUTH_ENERGY,
-}
-
 /** Histogram: count of discrete bitstrings by objective band (QUBO 4F4Q, n = 16). */
 export const OBJECTIVE_HISTOGRAM = (() => {
   const bins = [

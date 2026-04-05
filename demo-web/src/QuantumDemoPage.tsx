@@ -7,7 +7,6 @@ import { MethodologySection } from './components/sections/MethodologySection'
 import { PortfolioDashboard } from './components/sections/PortfolioDashboard'
 import { ProblemOverview } from './components/sections/ProblemOverview'
 import { ResultsSection } from './components/sections/ResultsSection'
-import { StressTestSection } from './components/sections/StressTestSection'
 import { WhatWeLearnedSection } from './components/sections/WhatWeLearnedSection'
 import { WhyItMatters } from './components/sections/WhyItMatters'
 import { PresentationProvider } from './presentation/PresentationProvider'
@@ -18,7 +17,6 @@ const SLIDES = [
   <MethodologySection key="method" />,
   <ResultsSection key="results" />,
   <PortfolioDashboard key="comparison" />,
-  <StressTestSection key="stress" />,
   <WhatWeLearnedSection key="learnings" />,
   <WhyItMatters key="why" />,
   <DemoCTASection key="cta" />,

@@ -138,6 +138,17 @@ cd demo-web && npm install && npm run dev
 
 ---
 
+## GitHub Pages (demo app)
+
+If the live site shows **only the README**, GitHub is still publishing **from a branch** (repo root) instead of the **built Vite app**.
+
+1. In the repo: **Settings → Pages → Build and deployment**.
+2. Set **Source** to **GitHub Actions** (not *Deploy from a branch*).
+3. Push `.github/workflows/deploy-github-pages.yml` and open the **Actions** tab; wait for **Deploy GitHub Pages** to finish (green).
+4. Open **`https://<username>.github.io/<repo>/`** (trailing slash helps). The workflow builds with `BASE_PATH` = `/repo-name/` so assets load correctly.
+
+---
+
 ## License / attribution
 
 YQuantum hackathon project; see repository history for team contributions.
