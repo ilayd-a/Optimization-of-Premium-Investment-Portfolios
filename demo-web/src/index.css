@@ -28,8 +28,8 @@
     margin: 0;
     min-height: 100dvh;
     font-family: var(--font-sans);
-    font-size: 1rem;
-    line-height: 1.55;
+    font-size: 0.875rem;
+    line-height: 1.5;
     background-color: var(--color-void);
     color: var(--color-mist);
     -webkit-font-smoothing: antialiased;
@@ -42,13 +42,13 @@
 
 @layer components {
   .deck-section-eyebrow {
-    @apply mb-2 text-xs font-semibold tracking-widest text-mist/90 uppercase sm:text-sm;
+    @apply mb-1.5 text-[10px] font-semibold tracking-widest text-mist/90 uppercase sm:text-xs;
   }
   .deck-section-title {
-    @apply font-display text-2xl font-semibold tracking-tight text-frost sm:text-3xl md:text-4xl;
+    @apply font-display text-xl font-semibold tracking-tight text-frost sm:text-2xl md:text-3xl;
   }
   .deck-section-lead {
-    @apply mx-auto max-w-2xl text-pretty text-base leading-relaxed text-mist sm:text-lg;
+    @apply mx-auto max-w-2xl text-pretty text-sm leading-relaxed text-mist sm:text-base;
   }
 }
 

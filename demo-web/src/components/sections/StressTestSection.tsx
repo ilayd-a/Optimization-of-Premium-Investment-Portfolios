@@ -1,63 +1,62 @@
 import { motion } from 'framer-motion'
-import { useState } from 'react'
-import { Activity, ShieldAlert, TrendingUp } from 'lucide-react'
-import { STRESS_METRICS, STRESS_SCENARIO_SERIES } from '../../data/mockPortfolioData'
-import { DownsideBarChart } from '../charts/DownsideBarChart'
-import { StressHistogramChart } from '../charts/StressHistogramChart'
-import { StressScenarioLines } from '../charts/StressScenarioLines'
+import { Activity, Layers, ShieldAlert } from 'lucide-react'
+import {
+  DISCRETE_STRESS,
+  QAOA_4F1Q_GROUND_TRUTH_ENERGY,
+  QUBO_4F4Q_RANKED,
+} from '../../data/presentationData'
+import { STRESS_SECTION_FIGURE } from '../../data/notebookFigures'
+import { NotebookFigure } from '../notebook/NotebookFigure'
 import { GlassCard } from '../ui/GlassCard'
 
 export function StressTestSection() {
-  const m = STRESS_METRICS
-  const [scenarioIx, setScenarioIx] = useState(4)
-  const scenario = STRESS_SCENARIO_SERIES[scenarioIx] ?? STRESS_SCENARIO_SERIES[0]
+  const gapQaoa = DISCRETE_STRESS.qaoaExpectedEnergy - DISCRETE_STRESS.groundTruthEnergy
+  const spreadDiscrete = DISCRETE_STRESS.worstNonEmptyObjective - DISCRETE_STRESS.bestObjective
 
   return (
-    <section id="stress" className="px-4 py-12 sm:px-8 sm:py-16">
+    <section id="stress" className="px-4 py-10 sm:px-8 sm:py-12">
       <div className="mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.5 }}
-          className="mb-14 text-center"
+          className="mb-10 text-center"
         >
-          <p className="deck-section-eyebrow text-amber-400">Stress lab</p>
-          <h2 className="deck-section-title">
-            Scenario analysis that reads in seconds
-          </h2>
-          <p className="deck-section-lead mt-4">
-            We shock the same covariance structure across synthetic scenarios—think macro bands,
-            spread dislocations, and correlation spikes—then read the distribution of portfolio
-            returns. Numbers below are mock placeholders ready for your CSV merge.
+          <p className="deck-section-eyebrow text-amber-400">Discrete stress</p>
+          <h2 className="deck-section-title">Where the combinatorics bite</h2>
+          <p className="deck-section-lead mt-3">
+            This slide quantifies structure in the four-qubit formulation: how objectives spread
+            across all 16 bitstrings, and how far finite-depth QAOA sits from the classical Ising
+            ground energy.
           </p>
         </motion.div>
 
-        <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {[
             {
               icon: ShieldAlert,
-              label: 'Quantum worst case',
-              value: `${m.quantumWorstCasePct}%`,
-              hint: 'REPLACE: min scenario PnL',
+              label: 'Best 4Q objective',
+              value: DISCRETE_STRESS.bestObjective.toFixed(4),
+              hint: `State ${QUBO_4F4Q_RANKED[0].state}`,
+            },
+            {
+              icon: Layers,
+              label: 'Discrete spread (max − min)',
+              value: spreadDiscrete.toFixed(4),
+              hint: 'All 16 allocations including empty portfolio',
+            },
+            {
+              icon: Activity,
+              label: 'QAOA ⟨E⟩ − E_ground',
+              value: gapQaoa.toFixed(4),
+              hint: `P = 3 · ground ${QAOA_4F1Q_GROUND_TRUTH_ENERGY.toFixed(4)}`,
             },
             {
               icon: ShieldAlert,
-              label: 'Equal-weight worst case',
-              value: `${m.equalWeightWorstCasePct}%`,
-              hint: 'Naive baseline tail',
-            },
-            {
-              icon: TrendingUp,
-              label: 'Mean return — quantum',
-              value: `${m.quantumMeanPct}%`,
-              hint: 'Across scenarios',
-            },
-            {
-              icon: TrendingUp,
-              label: 'Mean return — equal weight',
-              value: `${m.equalWeightMeanPct}%`,
-              hint: 'Across scenarios',
+              label: '5th-ranked objective',
+              value: DISCRETE_STRESS.fifthRankObjective.toFixed(4),
+              hint: 'Mid-tail discrete loss',
             },
           ].map(({ icon: Icon, label, value, hint }) => (
             <motion.div
@@ -67,125 +66,48 @@ export function StressTestSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
             >
-              <GlassCard className="h-full p-5">
-                <Icon className="mb-3 size-5 text-amber-300/90" aria-hidden />
-                <p className="text-[11px] font-medium tracking-wide text-mist/80 uppercase sm:text-xs">
+              <GlassCard className="h-full p-4 sm:p-5">
+                <Icon className="mb-2 size-4 text-amber-300/90 sm:mb-3 sm:size-5" aria-hidden />
+                <p className="text-[10px] font-medium tracking-wide text-mist/80 uppercase sm:text-[11px]">
                   {label}
                 </p>
-                <p className="mt-2 font-display text-2xl font-semibold tabular-nums text-frost sm:text-3xl">
+                <p className="mt-1.5 font-display text-xl font-semibold tabular-nums text-frost sm:text-2xl">
                   {value}
                 </p>
-                <p className="mt-2 text-xs text-mist/75 sm:text-sm">{hint}</p>
+                <p className="mt-1.5 text-[11px] text-mist/75 sm:text-xs">{hint}</p>
               </GlassCard>
             </motion.div>
           ))}
         </div>
 
-        <div className="mb-10 grid gap-5 lg:grid-cols-3">
-          <GlassCard hover={false} className="p-6 lg:col-span-2">
-            <h3 className="mb-1 font-display text-lg font-semibold text-frost">
-              Return distribution
-            </h3>
-            <p className="mb-4 text-xs text-mist sm:text-sm">
-              Histogram of scenario outcomes — quantum vs. equal weight.
-            </p>
-            <StressHistogramChart />
-          </GlassCard>
-          <GlassCard hover={false} className="flex flex-col p-6">
-            <h3 className="mb-1 font-display text-lg font-semibold text-frost">Win rate</h3>
-            <p className="text-xs text-mist sm:text-sm">Head-to-head on scenario PnL.</p>
-            <div className="mt-6 flex flex-1 flex-col items-center justify-center">
-              <p className="font-display text-5xl font-semibold tabular-nums text-gradient sm:text-6xl">
-                {m.quantumWinRatePct}%
-              </p>
-              <p className="mt-2 text-sm text-mist sm:text-base">Quantum vs. equal weight</p>
-              <p className="mt-6 text-center text-xs leading-relaxed text-mist/80 sm:text-sm">
-                REPLACE: compute wins as count(quantum PnL &gt; baseline) / n_scenarios from{' '}
-                <code className="rounded bg-white/10 px-1">portfolio_stress_results.csv</code>.
-              </p>
-            </div>
-          </GlassCard>
-        </div>
-
-        <div className="grid gap-5 lg:grid-cols-2">
-          <GlassCard hover={false} className="p-6">
-            <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-              <div className="flex items-center gap-2">
-                <Activity className="size-5 text-cyan-glow" aria-hidden />
-                <h3 className="font-display text-lg font-semibold text-frost">
-                  Path across scenarios
-                </h3>
-              </div>
-              <p className="text-xs text-mist/75 sm:text-sm">
-                Scrub the timeline — chart highlights the active shock.
-              </p>
-            </div>
-            <div className="mb-4 space-y-3 rounded-xl border border-white/10 bg-black/25 px-4 py-3">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="font-mono text-xs text-violet-300 sm:text-sm">{scenario.scenario}</span>
-                <span className="text-xs text-mist sm:text-sm">
-                  Quantum{' '}
-                  <strong className="text-frost tabular-nums">{scenario.quantumPct.toFixed(2)}%</strong>
-                  <span className="mx-1.5 text-mist/40">·</span>
-                  Equal weight{' '}
-                  <strong className="text-frost tabular-nums">
-                    {scenario.equalWeightPct.toFixed(2)}%
-                  </strong>
-                </span>
-              </div>
-              <input
-                type="range"
-                min={0}
-                max={STRESS_SCENARIO_SERIES.length - 1}
-                value={scenarioIx}
-                onChange={(e) => setScenarioIx(Number(e.target.value))}
-                className="h-2 w-full cursor-pointer appearance-none rounded-full bg-white/10 accent-rose-400"
-                aria-label="Select stress scenario"
-              />
-              <p className="text-[11px] text-mist/65 sm:text-xs">
-                REPLACE: bind slider to rows in{' '}
-                <code className="rounded bg-white/10 px-1 py-0.5 text-[11px]">portfolio_stress_results.csv</code>.
-              </p>
-            </div>
-            <StressScenarioLines activeScenario={scenario.scenario} />
-          </GlassCard>
-          <GlassCard hover={false} className="p-6">
-            <h3 className="mb-1 font-display text-lg font-semibold text-frost">
-              Downside stack
-            </h3>
-            <p className="mb-4 text-xs text-mist sm:text-sm">Worst case and 5th percentile comparison.</p>
-            <DownsideBarChart />
-            <dl className="mt-4 grid grid-cols-2 gap-3 text-xs sm:text-sm">
-              <div className="rounded-lg bg-white/5 px-3 py-2">
-                <dt className="text-mist/70">Quantum 5th pct</dt>
-                <dd className="font-mono text-frost">{m.quantumP5Pct}%</dd>
-              </div>
-              <div className="rounded-lg bg-white/5 px-3 py-2">
-                <dt className="text-mist/70">Equal-weight 5th pct</dt>
-                <dd className="font-mono text-frost">{m.equalWeightP5Pct}%</dd>
-              </div>
-            </dl>
-          </GlassCard>
-        </div>
+        <GlassCard hover={false} className="p-5 sm:p-6">
+          <h3 className="mb-1 font-display text-base font-semibold text-frost sm:text-lg">
+            {STRESS_SECTION_FIGURE.title}
+          </h3>
+          <p className="mb-3 text-xs text-mist sm:text-sm">
+            How compute time trades off against closing the gap to the target energy at each depth.
+          </p>
+          <NotebookFigure
+            src={STRESS_SECTION_FIGURE.src}
+            alt={STRESS_SECTION_FIGURE.alt}
+            title={STRESS_SECTION_FIGURE.title}
+          />
+        </GlassCard>
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-10"
+          className="mt-8"
         >
-          <div className="relative overflow-hidden rounded-2xl border border-violet-500/25 bg-gradient-to-br from-violet-950/40 to-slate-950/80 p-6 sm:p-8">
+          <div className="relative overflow-hidden rounded-2xl border border-violet-500/25 bg-gradient-to-br from-violet-950/40 to-slate-950/80 p-5 sm:p-7">
             <div className="pointer-events-none absolute -left-10 top-0 size-40 rounded-full bg-violet-500/20 blur-3xl" />
-            <h3 className="font-display text-xl font-semibold text-frost sm:text-2xl">Summary</h3>
-            <p className="relative mt-3 max-w-3xl text-sm leading-relaxed text-mist sm:text-base">
-              Under these mock paths, the quantum allocation posts a higher mean return and a narrower
-              left tail than equal weight, with a{' '}
-              <strong className="text-frost">{m.quantumWinRatePct}%</strong> head-to-head win rate
-              across scenarios. Worst-case loss moves from{' '}
-              <strong className="text-frost">{m.equalWeightWorstCasePct}%</strong> to{' '}
-              <strong className="text-frost">{m.quantumWorstCasePct}%</strong>. The fifty-asset
-              classical challenger still leads on raw return—consistent with giving up breadth in
-              exchange for a compact, discrete quantum program on four names.
+            <h3 className="font-display text-lg font-semibold text-frost sm:text-xl">Takeaway</h3>
+            <p className="relative mt-2 max-w-3xl text-xs leading-relaxed text-mist sm:text-sm">
+              The discrete ladder exposes how sharply objective deteriorates away from the optimum.
+              QAOA at P = 3 remains roughly <strong className="text-frost">{gapQaoa.toFixed(3)}</strong>{' '}
+              above the classical ground energy on this run; the results section shows depth and
+              overlap curves.
             </p>
           </div>
         </motion.div>
