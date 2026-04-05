@@ -1,15 +1,14 @@
 import { motion } from 'framer-motion'
 import { ArrowDownRight, Orbit } from 'lucide-react'
-
-function scrollTo(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-}
+import { usePresentation } from '../../presentation/PresentationProvider'
 
 export function HeroSection() {
+  const { goToId } = usePresentation()
+
   return (
     <section
       id="hero"
-      className="relative flex min-h-[92dvh] flex-col justify-center overflow-hidden px-4 pb-24 pt-28 sm:px-8"
+      className="relative flex min-h-full flex-col justify-center overflow-hidden px-4 py-16 sm:px-8"
     >
       <div className="bg-grid pointer-events-none absolute inset-0 opacity-80" />
       <div className="glow-orb absolute -left-32 top-1/4 size-[420px] rounded-full bg-violet-600" />
@@ -31,7 +30,7 @@ export function HeroSection() {
           YQuantum · Discrete allocation under real constraints
         </motion.div>
 
-        <h1 className="font-display text-4xl font-semibold leading-[1.05] tracking-tight text-frost sm:text-6xl md:text-7xl">
+        <h1 className="font-display text-4xl font-semibold leading-[1.05] tracking-tight text-frost sm:text-5xl md:text-6xl lg:text-7xl">
           <span className="text-gradient">Quantum</span>
           <br />
           Portfolio Optimization
@@ -48,8 +47,8 @@ export function HeroSection() {
             type="button"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => scrollTo('comparison')}
-            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-600 to-indigo-500 px-8 py-3.5 text-sm font-semibold text-white shadow-[0_0_40px_-8px_rgba(139,92,246,0.7)] transition-shadow hover:shadow-[0_0_56px_-6px_rgba(34,211,238,0.35)]"
+            onClick={() => goToId('comparison')}
+            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-600 to-indigo-500 px-7 py-3 text-sm font-semibold text-white shadow-[0_0_40px_-8px_rgba(139,92,246,0.7)] transition-shadow hover:shadow-[0_0_56px_-6px_rgba(34,211,238,0.35)] sm:text-base"
           >
             Explore results
             <ArrowDownRight className="size-4" aria-hidden />
@@ -58,23 +57,29 @@ export function HeroSection() {
             type="button"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => scrollTo('stress')}
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-8 py-3.5 text-sm font-semibold text-frost backdrop-blur-sm transition-colors hover:border-cyan-glow/40 hover:bg-white/10"
+            onClick={() => goToId('stress')}
+            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 py-3 text-sm font-semibold text-frost backdrop-blur-sm transition-colors hover:border-cyan-glow/40 hover:bg-white/10 sm:text-base"
           >
             See stress test
           </motion.button>
         </div>
+
+        <p className="mx-auto mt-8 max-w-md text-xs leading-relaxed text-mist/60 sm:text-sm">
+          Slide deck: use the bottom controls or <strong className="text-frost/80">← →</strong> and{' '}
+          <strong className="text-frost/80">Space</strong> to advance;{' '}
+          <strong className="text-frost/80">↑ ↓</strong> scrolls within a long slide.
+        </p>
       </motion.div>
 
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 0.8 }}
-        className="pointer-events-none absolute bottom-10 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-xs text-mist/60"
+        className="pointer-events-none absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-xs text-mist/55"
         aria-hidden
       >
-        <span className="font-medium tracking-widest uppercase">Scroll</span>
-        <span className="block h-8 w-px bg-gradient-to-b from-white/40 to-transparent" />
+        <span className="font-medium tracking-widest uppercase">Next</span>
+        <span className="block h-6 w-px bg-gradient-to-b from-white/35 to-transparent" />
       </motion.div>
     </section>
   )

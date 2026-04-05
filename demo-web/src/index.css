@@ -22,12 +22,14 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
   }
   body {
     margin: 0;
     min-height: 100dvh;
     font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.55;
     background-color: var(--color-void);
     color: var(--color-mist);
     -webkit-font-smoothing: antialiased;
@@ -35,6 +37,18 @@
   }
   #root {
     min-height: 100dvh;
+  }
+}
+
+@layer components {
+  .deck-section-eyebrow {
+    @apply mb-2 text-xs font-semibold tracking-widest text-mist/90 uppercase sm:text-sm;
+  }
+  .deck-section-title {
+    @apply font-display text-2xl font-semibold tracking-tight text-frost sm:text-3xl md:text-4xl;
+  }
+  .deck-section-lead {
+    @apply mx-auto max-w-2xl text-pretty text-base leading-relaxed text-mist sm:text-lg;
   }
 }
 
