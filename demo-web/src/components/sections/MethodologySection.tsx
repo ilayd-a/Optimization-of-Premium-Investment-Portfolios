@@ -8,6 +8,7 @@ import {
   Share2,
   Sigma,
 } from 'lucide-react'
+import { MethodologyTechnicalDepth } from '../methodology/MethodologyTechnicalDepth'
 import { CircuitShowcase } from './CircuitShowcase'
 import { GlassCard } from '../ui/GlassCard'
 
@@ -15,36 +16,37 @@ const steps = [
   {
     icon: Database,
     title: 'Market data',
-    body: 'Expected returns and covariance on four liquid sleeves—the core tradable set for the quantum formulation.',
+    body: 'Expected returns μ and covariance Σ on four liquid sleeves—identical moments for classical and quantum solvers.',
     detail:
-      'Timestamps aligned, outliers controlled, and moments frozen so every optimizer sees identical inputs.',
+      'Moments are frozen and shared: every pipeline stage sees the same μ, Σ, and scenario draws so energy gaps and Sharpe comparisons are apples-to-apples.',
   },
   {
     icon: Sigma,
     title: 'QUBO formulation',
-    body: 'Objective and penalties as a quadratic pseudo-Boolean: discrete weights, budget, and risk in one energy landscape.',
+    body: 'Turn the constrained portfolio problem into one quadratic energy: risk, return, and a budget penalty in a single objective.',
     detail:
-      'Binary variables stand in for sleeve inclusion; penalties enforce the budget and rule out infeasible patterns.',
+      'The λ·(budget mismatch)² term lets the optimizer stay unconstrained in form; expanded, it feeds the Q matrix together with covariance and returns.',
   },
   {
     icon: Binary,
     title: 'Ising Hamiltonian',
-    body: 'Spins replace binary decisions so the problem runs on VQE / QAOA-style circuits and simulators.',
-    detail: 'A standard change of variables maps QUBO → Ising so energies match measurable qubit expectations.',
+    body: 'Bits become spins so the same energy can drive a quantum circuit: couplings J and fields h from the QUBO.',
+    detail:
+      'qubo_to_ising matches simulator and QAOA cost Hamiltonian to the discrete energy up to constants you add back when comparing numbers.',
   },
   {
     icon: Cpu,
     title: 'Quantum optimization',
-    body: 'Four qubits—one per sleeve—search the discrete energy landscape for low-energy, budget-feasible allocations.',
+    body: 'QAOA layers alternate a cost evolution with a mixer; classical loops tune the angles.',
     detail:
-      'Parameterized circuits prepare trial states; classical outer loops tune angles until bitstrings decode to implementable weights.',
+      'COBYLA, Powell, etc. adjust layer-wise parameters; measured bitstrings decode to sleeve weights and the same μ, Σ used everywhere else.',
   },
   {
     icon: Share2,
     title: 'Portfolio weights',
-    body: 'Decoded spins become sleeve weights, then stack against classical baselines on the same moments.',
+    body: 'Decoded allocations are turned into implementable weights and compared on the same risk–return footing.',
     detail:
-      'Post-processing enforces budgets and maps bits to economic sleeves before any risk comparison.',
+      'Bits → weights respect w_max and budget; metrics in the deck reuse the same μ, Σ as the QUBO build so quantum vs classical is not re-fit on different inputs.',
   },
 ] as const
 
@@ -80,9 +82,12 @@ export function MethodologySection() {
           <p className="deck-section-eyebrow text-cyan-400">Method</p>
           <h2 className="deck-section-title">From quotes to qubits to allocations</h2>
           <p className="deck-section-lead mt-3">
-            One pipeline: identical risk inputs for every solver so comparisons stay fair.
+            Same data everywhere—then we compress the portfolio story into a single energy landscape the quantum
+            stack can optimize.
           </p>
-          <p className="mx-auto mt-2 max-w-xl text-xs text-mist/75 sm:text-sm">Select a step for detail.</p>
+          <p className="mx-auto mt-2 max-w-xl text-xs text-mist/75 sm:text-sm">
+            Tap a step, or skip straight to the bite-sized breakdown below.
+          </p>
         </motion.div>
 
         <motion.div
@@ -141,6 +146,8 @@ export function MethodologySection() {
             </motion.div>
           </AnimatePresence>
         </div>
+
+        <MethodologyTechnicalDepth />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

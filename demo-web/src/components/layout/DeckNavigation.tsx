@@ -8,6 +8,7 @@ const SHORT_LABELS: Record<string, string> = {
   results: 'Results',
   comparison: 'Board',
   stress: 'Stress',
+  learnings: 'Learn',
   why: 'Why',
   cta: 'Outro',
 }

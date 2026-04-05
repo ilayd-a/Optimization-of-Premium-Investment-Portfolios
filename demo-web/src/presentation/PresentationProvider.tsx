@@ -16,6 +16,7 @@ export const SLIDE_IDS = [
   'results',
   'comparison',
   'stress',
+  'learnings',
   'why',
   'cta',
 ] as const
