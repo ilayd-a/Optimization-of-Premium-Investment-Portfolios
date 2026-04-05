@@ -6,6 +6,7 @@ import { HeroSection } from './components/sections/HeroSection'
 import { MethodologySection } from './components/sections/MethodologySection'
 import { PortfolioDashboard } from './components/sections/PortfolioDashboard'
 import { ProblemOverview } from './components/sections/ProblemOverview'
+import { ResultsSection } from './components/sections/ResultsSection'
 import { StressTestSection } from './components/sections/StressTestSection'
 import { WhyItMatters } from './components/sections/WhyItMatters'
 import { PresentationProvider } from './presentation/PresentationProvider'
@@ -14,6 +15,7 @@ const SLIDES = [
   <HeroSection key="hero" />,
   <ProblemOverview key="problem" />,
   <MethodologySection key="method" />,
+  <ResultsSection key="results" />,
   <PortfolioDashboard key="comparison" />,
   <StressTestSection key="stress" />,
   <WhyItMatters key="why" />,
@@ -39,7 +41,7 @@ export function QuantumDemoPage() {
   }, [])
 
   return (
-    <PresentationProvider>
+    <PresentationProvider slideCount={SLIDES.length}>
       <div className="fixed inset-0 z-0 flex flex-col overflow-hidden bg-void text-mist">
         <SlideDeck slides={SLIDES} />
         <DeckNavigation />

@@ -8,7 +8,7 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-full flex-col justify-center overflow-hidden px-4 py-16 sm:px-8"
+      className="relative flex min-h-full flex-col justify-center overflow-hidden px-4 py-12 sm:px-8 sm:py-14"
     >
       <div className="bg-grid pointer-events-none absolute inset-0 opacity-80" />
       <div className="glow-orb absolute -left-32 top-1/4 size-[420px] rounded-full bg-violet-600" />
@@ -24,33 +24,33 @@ export function HeroSection() {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1, duration: 0.5 }}
-          className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium tracking-wide text-frost/90 backdrop-blur-sm sm:text-sm"
+          className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-medium tracking-wide text-frost/90 backdrop-blur-sm sm:text-xs"
         >
-          <Orbit className="size-4 text-cyan-glow" aria-hidden />
+          <Orbit className="size-3.5 text-cyan-glow sm:size-4" aria-hidden />
           YQuantum · Discrete allocation under real constraints
         </motion.div>
 
-        <h1 className="font-display text-4xl font-semibold leading-[1.05] tracking-tight text-frost sm:text-5xl md:text-6xl lg:text-7xl">
+        <h1 className="font-display text-3xl font-semibold leading-[1.08] tracking-tight text-frost sm:text-4xl md:text-5xl lg:text-6xl">
           <span className="text-gradient">Quantum</span>
           <br />
           Portfolio Optimization
         </h1>
 
-        <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-mist sm:text-lg">
-          We encode a risk–return objective with a strict budget into a QUBO, map it to an Ising
-          Hamiltonian, and optimize with an eight-qubit program—then stack the outcome against
-          classical baselines on the same four names and a fifty-asset challenger.
+        <p className="mx-auto mt-5 max-w-2xl text-pretty text-sm leading-relaxed text-mist sm:text-base">
+          Four liquid sleeves, one qubit per sleeve: we encode mean–variance risk with a hard budget as
+          a QUBO, map to Ising, and validate with QAOA depth sweeps. A finer eight-qubit encoding (two
+          qubits per sleeve) was evaluated separately and sits outside the main storyline.
         </p>
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <motion.button
             type="button"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => goToId('comparison')}
-            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-600 to-indigo-500 px-7 py-3 text-sm font-semibold text-white shadow-[0_0_40px_-8px_rgba(139,92,246,0.7)] transition-shadow hover:shadow-[0_0_56px_-6px_rgba(34,211,238,0.35)] sm:text-base"
+            onClick={() => goToId('results')}
+            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-600 to-indigo-500 px-6 py-2.5 text-xs font-semibold text-white shadow-[0_0_40px_-8px_rgba(139,92,246,0.7)] transition-shadow hover:shadow-[0_0_56px_-6px_rgba(34,211,238,0.35)] sm:px-7 sm:py-3 sm:text-sm"
           >
-            Explore results
+            View results
             <ArrowDownRight className="size-4" aria-hidden />
           </motion.button>
           <motion.button
@@ -58,16 +58,16 @@ export function HeroSection() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => goToId('stress')}
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 py-3 text-sm font-semibold text-frost backdrop-blur-sm transition-colors hover:border-cyan-glow/40 hover:bg-white/10 sm:text-base"
+            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-2.5 text-xs font-semibold text-frost backdrop-blur-sm transition-colors hover:border-cyan-glow/40 hover:bg-white/10 sm:px-7 sm:py-3 sm:text-sm"
           >
-            See stress test
+            Discrete stress
           </motion.button>
         </div>
 
-        <p className="mx-auto mt-8 max-w-md text-xs leading-relaxed text-mist/60 sm:text-sm">
-          Slide deck: use the bottom controls or <strong className="text-frost/80">← →</strong> and{' '}
-          <strong className="text-frost/80">Space</strong> to advance;{' '}
-          <strong className="text-frost/80">↑ ↓</strong> scrolls within a long slide.
+        <p className="mx-auto mt-6 max-w-md text-[11px] leading-relaxed text-mist/60 sm:text-xs">
+          Navigate with the bar below, <strong className="text-frost/80">← →</strong> or{' '}
+          <strong className="text-frost/80">Space</strong>; <strong className="text-frost/80">↑ ↓</strong>{' '}
+          scrolls inside a slide.
         </p>
       </motion.div>
 
@@ -75,11 +75,11 @@ export function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 0.8 }}
-        className="pointer-events-none absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-xs text-mist/55"
+        className="pointer-events-none absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1.5 text-[10px] text-mist/55 sm:bottom-8 sm:text-xs"
         aria-hidden
       >
         <span className="font-medium tracking-widest uppercase">Next</span>
-        <span className="block h-6 w-px bg-gradient-to-b from-white/35 to-transparent" />
+        <span className="block h-5 w-px bg-gradient-to-b from-white/35 to-transparent sm:h-6" />
       </motion.div>
     </section>
   )
