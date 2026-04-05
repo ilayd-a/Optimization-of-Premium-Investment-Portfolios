@@ -266,3 +266,23 @@ export const OBJECTIVE_BY_RANK = QUBO_4F4Q_RANKED.map((r) => ({
   objective: r.objective,
 }))
 
+/** Per-asset marginal probabilities from QAOA / sampler marginals (4F / 4Q, one qubit per asset). */
+export const MARGINAL_PROBABILITIES_4F4Q = [
+  { asset: 'A017', p0: 0.553, p1: 0.447 },
+  { asset: 'A026', p0: 0.522, p1: 0.478 },
+  { asset: 'A007', p0: 0.498, p1: 0.502 },
+  { asset: 'A047', p0: 0.536, p1: 0.464 },
+] as const
+
+/** Per-asset marginal probabilities (8Q encoding, two qubits per asset in the extended run). */
+export const MARGINAL_PROBABILITIES_8Q = [
+  { asset: 'A017', p0: 0.503, p1: 0.497 },
+  { asset: 'A042', p0: 0.503, p1: 0.497 },
+  { asset: 'A026', p0: 0.519, p1: 0.481 },
+  { asset: 'A043', p0: 0.519, p1: 0.481 },
+  { asset: 'A007', p0: 0.508, p1: 0.492 },
+  { asset: 'A048', p0: 0.508, p1: 0.492 },
+  { asset: 'A047', p0: 0.515, p1: 0.485 },
+  { asset: 'A037', p0: 0.515, p1: 0.485 },
+] as const
+

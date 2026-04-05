@@ -1,10 +1,61 @@
 import { motion } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
-import { QAOA_4F1Q_GROUND_TRUTH_ENERGY } from '../../data/presentationData'
+import {
+  MARGINAL_PROBABILITIES_4F4Q,
+  MARGINAL_PROBABILITIES_8Q,
+  QAOA_4F1Q_GROUND_TRUTH_ENERGY,
+} from '../../data/presentationData'
 import { RESULTS_NOTEBOOK_FIGURES } from '../../data/notebookFigures'
 import { OptimizationComparisonPresentation } from '../charts/OptimizationComparisonPresentation'
 import { NotebookFigure } from '../notebook/NotebookFigure'
 import { GlassCard } from '../ui/GlassCard'
+
+function MarginalProbabilitiesTable({
+  title,
+  rows,
+}: {
+  title: string
+  rows: readonly { asset: string; p0: number; p1: number }[]
+}) {
+  return (
+    <div className="overflow-x-auto rounded-xl border border-white/10 bg-white/[0.03]">
+      <table className="w-full min-w-[280px] border-collapse text-left text-sm">
+        <caption className="border-b border-white/10 px-4 py-3 text-center font-display text-sm font-semibold text-frost sm:text-base">
+          {title}
+        </caption>
+        <thead>
+          <tr className="border-b border-white/10 bg-white/[0.06] text-xs font-semibold uppercase tracking-wide text-mist sm:text-sm">
+            <th scope="col" className="px-4 py-2.5 text-frost">
+              Asset
+            </th>
+            <th scope="col" className="px-4 py-2.5 text-frost">
+              <span className="font-mono normal-case tracking-normal">P(|0⟩)</span>
+            </th>
+            <th scope="col" className="px-4 py-2.5 text-frost">
+              <span className="font-mono normal-case tracking-normal">P(|1⟩)</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr
+              key={row.asset}
+              className="border-b border-white/[0.06] last:border-b-0 odd:bg-white/[0.02]"
+            >
+              <td className="px-4 py-2 font-mono text-xs text-frost sm:text-sm">{row.asset}</td>
+              <td className="px-4 py-2 font-mono text-xs tabular-nums text-mist sm:text-sm">
+                {row.p0.toFixed(3)}
+              </td>
+              <td className="px-4 py-2 font-mono text-xs tabular-nums text-mist sm:text-sm">
+                {row.p1.toFixed(3)}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
 
 export function ResultsSection() {
   return (
@@ -99,6 +150,36 @@ export function ResultsSection() {
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.45 }}
+          className="mt-10 space-y-8"
+        >
+          <GlassCard className="p-5 sm:p-6">
+            <p className="deck-section-eyebrow text-violet-300/90">Marginals</p>
+            <h3 className="mt-1 font-display text-base font-semibold text-frost sm:text-lg">
+              Portfolio marginal probabilities
+            </h3>
+            <p className="mt-2 text-xs leading-relaxed text-mist sm:text-sm">
+              Per-asset single-qubit marginals from the QAOA / sampling run: probability mass on{' '}
+              <span className="font-mono text-frost/90">|0⟩</span> vs{' '}
+              <span className="font-mono text-frost/90">|1⟩</span> for each listed asset.
+            </p>
+            <div className="mt-6 space-y-8">
+              <MarginalProbabilitiesTable
+                title="4F / 4Q Portfolio Marginal Probabilities"
+                rows={MARGINAL_PROBABILITIES_4F4Q}
+              />
+              <MarginalProbabilitiesTable
+                title="8Q Portfolio Marginal Probabilities"
+                rows={MARGINAL_PROBABILITIES_8Q}
+              />
+            </div>
+          </GlassCard>
+        </motion.div>
       </div>
     </section>
   )
